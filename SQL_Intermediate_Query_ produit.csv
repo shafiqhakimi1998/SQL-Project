@@ -1,0 +1,64 @@
+n°;Désignation;Prixht
+1;carte Ethernet  SMC 16T ultra;20
+2;carte Ethernet  3COM Etherlink III;13
+3;carte Ethernet  EAGLE 16 bits ISA;17
+4;Kit numérique Oxus for workgroups;40
+5;carte PCMCIA worldport;30
+6;Modem Fax sporster;15
+7;Modem Fax courrier v34;50
+8;carte novafax 14.4;17
+9;amplificateur de ligne centronics;25
+10;cable actif parallèle (20 m);12
+11;cable actif parallèle (40 m);7
+12;convertisseur/ampli RS 232;10
+13;pro-link pour PC;15
+14;pro-link pour MAC;6
+15;commutateur 9 lignes EIA;13
+16;commutateur 36 lignes centronics;12
+17;cordon VGA;19
+18;buffer série 256 Ko;27
+19;buffer parallèle 256 Ko;31
+20;boîtier alimentation 5 prises;17
+21;adaptateur filtre (3A);12
+22;masterconsole 2 voies;12
+23;onduleur MGE pulsar ES2;75
+24;onduleur MGE pulsar ES7;78
+25;cordon de blindage (10m);5
+26;cordon pour imprimante série;3
+27;fiche gigogne standard;35
+28;pince universelle RJ 11;27
+29;prise téléphonique murale;29
+30;adaptateur pour clavier PC 5 BR;15
+31;adaptateur blindé 12 broches;8
+32;protecteur de port 12 broches;3
+33;cordon moule 12 m;5
+34;terminateur SCSI-II;5
+35;carte SCSI adaptec;33
+36;panneau de brassage 48 ports;14
+37;filtre media ;8
+38;cordon fibre optique 3m;10
+39;kit de terminaison fibre optique;5
+40;coupleur ST-ST;4
+41;cable PVC 4 paires (5m);5
+42;connecteur BNC;5
+43;adaptateur BNC;10
+44;routeur matchbox MR-1010;45
+45;adaptateur V36 DTE;3
+46;hub ATMR 3012;20
+47;hub ATMR 3024;22
+48;quick switch 4 lignes;9
+49;quick switch 8 lignes;9
+50;convertisseur AT XON/XOFF;32
+51;convertisseur compact;30
+52;adaptateur ethernet Accton;15
+53;multiplexeur 32 voies Xircom;15
+54;adaptateur Etherexpress;15
+55;transceiver LNart;12
+56;microtransceiver 10 baseT;25
+57;transceiver 3com;14
+58;serveur d'impression HPjetdirect;40
+59;serveur d'impression netport;40
+61;carte réseau PCMCIA;38
+;;
+;;
+;;
