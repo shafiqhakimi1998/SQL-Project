@@ -1,0 +1,397 @@
+
+
+#1
+
+SELECT Design,stock
+FROM produit
+WHERE produitID = 8
+ORDER BY produitID;
+
+
+
+#2
+
+SELECT produitID, Design
+FROM produit
+WHERE FamilleId = 1
+ORDER BY Design;
+
+#3
+
+SELECT commandeId
+FROM commande
+WHERE ClientID IN (5,6)
+ORDER BY commandeId;
+
+#4
+
+SELECT *
+FROM commande
+WHERE DateCom BETWEEN '2017-01-01' AND '2017-03-01'
+AND (ClientID = 5 or AgenceId = 5);
+
+#5
+
+SELECT produitID, Design, (StockAlerte - Stock) AS "quantité à acheter pour reconstituer le stock d’alerte"
+FROM produit
+WHERE Stock < StockAlerte;
+
+#6
+
+SELECT *
+FROM client
+WHERE CpCli BETWEEN 73000 AND 74999
+AND TelCli LIKE '%4%'
+AND TelCli NOT LIKE '04%';
+
+#7
+
+SELECT Design
+FROM produit, tva
+WHERE produit.TauxId = tva.tauxId
+AND tva.taux = 0.196;
+
+#8
+
+SELECT DISTINCT NomClient
+FROM commande INNER JOIN client
+ON (client.ClientID = commande.ClientID)
+WHERE YEAR(DateCom) = 2017;
+
+2 Option
+
+AND DateCom BETWEEN ‘2017-01-01’ AND ‘2017-12-31’
+
+#9
+
+SELECT distinct FactureId
+FROM facture
+JOIN contient on facture.CommandeId = contient.CommandeId
+WHERE contient.produitID in (1, 7, 11, 15, 21, 23, 34);
+
+#10
+
+SELECT Design
+FROM produit, coute, tva
+WHERE produit.produitId = coute.produitId
+AND produit.TauxId = tva.TauxId
+AND prixht*(1+taux) BETWEEN 20 AND 70;
+
+#11
+
+
+SELECT Design
+FROM produit
+JOIN coute ON produit.produitId = coute.produitID
+JOIN tva on produit.TauxId = tva.TauxId
+WHERE prixHT * (1 + taux) BETWEEN 20 AND 70
+AND CatalogueId = 1;
+
+
+
+select design
+from produit, coute, tva, catalogue
+where 	coute.produitID = produit.produitID
+and produit.TauxId = tva.TauxId
+and coute.CatalogueId = catalogue.CatalogueId
+and (coute.prixHT * (1+ tva.taux)) between 20 and 70
+and catalogue.DateDebut <= '2017-03-01';
+
+select design
+from produit, coute, tva, catalogue
+where produit.produitID = coute.produitID
+AND produit.TauxId = tva.TauxId
+and coute.CatalogueId = catalogue.CatalogueId
+and prixHT * (1 + Taux) between 20 and 70
+and DateFact like '2017-03-01';
+
+#12
+
+**12. Nombre de commandes ayant été facturées en 2017 (301).**
+
+SELECT CommandeId, FactureId
+FROM facture
+WHERE year (DateFact) = 2017
+
+#13
+
+13. Stock total de l’ensemble des produits de la famille « équipement électrique et alimentation » (8).
+
+SELECT sum(stock) as StockTotalFamilleId6
+FROM produit
+WHERE FamilleId = 6;
+
+SELECT sum(stock) as StockTotalFamilleId6
+FROM produit
+WHERE FamilleId = 6;
+
+SELECT count(commandeId) as NB_commande, ClientID
+from commande
+group by clientID
+
+#14
+
+SELECT AgenceId, sum(factureMontantHT) AS CA_HT
+FROM facture INNER JOIN commande
+ON commande.CommandeId = facture.CommandeId
+WHERE YEAR(DateFact) = 2017
+Group By AgenceId;
+
+#16
+
+SELECT NomClient,
+COUNT(CommandeId) AS NombreCommandes
+FROM client
+JOIN commande ON commande.ClientID = client.ClientID
+WHERE YEAR(DateCom) = 2017
+GROUP BY NomClient
+HAVING COUNT(CommandeId) > 10;
+
+#17
+
+SELECT
+produit.produitID AS RefProduit,
+produit.Design AS Designation,
+SUM(contient.Qte * coute.prixHT) AS MontantHT
+FROM
+produit
+JOIN
+contient ON produit.produitID = contient.produitID
+JOIN
+commande ON commande.CommandeId = contient.CommandeId
+JOIN
+coute ON produit.produitID = coute.produitID
+JOIN
+catalogue ON coute.CatalogueId = catalogue.CatalogueId
+WHERE
+YEAR(commande.DateCom) = 2017
+GROUP BY
+produit.produitID, produit.Design
+ORDER BY
+MontantHT DESC
+LIMIT 10;
+
+#18
+
+18. Nombre de clients ayant passé au moins une commande en 2017 (1 réponse : 38).
+
+SELECT count(DISTINCT client.ClientID) AS Nombre_de_client
+FROM client
+JOIN commande On  commande.ClientID = client.ClientID
+WHERE Year(DateCom) = 2017;
+
+SELECT COUNT(DISTINCT ClientID)
+FROM commande
+WHERE YEAR(DateCom) = 2017;
+
+#19
+
+**19. Nom de l’agence ayant traité le plus de commandes en 2017 (réponse : Meylan 70 commandes).**
+
+SELECT agence.NomAgence, COUNT(CommandeId) AS nombre_de_commandes
+FROM agence INNER JOIN commande
+On  commande.AgenceId = agence.AgenceId
+WHERE YEAR(DateCom) = 2017
+Group BY NomAgence
+Order by nombre_de_commandes DESC
+limit 1;
+
+#20
+
+SELECT
+MONTH(commande.DateCom) AS Mois,
+AVG(DATEDIFF(facture.DateFact, commande.DateCom)) AS DureeMoyenne
+FROM
+commande
+JOIN
+facture ON commande.CommandeId = facture.CommandeId
+WHERE
+YEAR(commande.DateCom) = 2017
+GROUP BY
+MONTH(commande.DateCom)
+ORDER BY
+Mois;
+
+SELECT
+MONTH(commande.DateCom) AS Mois,
+AVG(facture.DateFact - commande.DateCom) AS DureeMoyenne
+
+FROM
+commande
+JOIN
+facture  ON commande.CommandeId = facture.CommandeId
+WHERE
+YEAR(commande.DateCom) = 2017
+AND facture.DateFact IS NOT NULL
+
+GROUP BY
+MONTH(commande.DateCom)
+ORDER BY
+Mois;
+
+#21
+
+SELECT
+client.NomClient AS Client,
+COUNT(DISTINCT contient.produitID) AS NombreReferences
+FROM
+client
+JOIN
+commande  ON client.ClientID = commande.ClientID
+JOIN
+contient ON commande.CommandeId = contient.CommandeId
+WHERE
+YEAR(commande.DateCom) = 2017
+GROUP BY
+client.NomClient
+ORDER BY
+NombreReferences DESC;
+
+#22
+
+SELECT
+MONTH(commande.DateCom) AS Mois,
+COUNT(commande.CommandeId) / (SELECT COUNT(*) FROM agence) AS RatioCommandesAgences
+FROM
+commande
+WHERE
+YEAR(commande.DateCom) = 2007
+GROUP BY
+MONTH(commande.DateCom)
+ORDER BY
+Mois;
+
+#23
+
+SELECT
+AgenceId,
+NomAgence,
+IF(SUM(facture.factureMontantHT) > 350000, 'élevée', 'faible') AS PERFORMANCE
+FROM
+agence
+LEFT JOIN
+facture ON agence.AgenceId
+WHERE
+YEAR(facture.DateFact) = 2017
+GROUP BY
+AgenceId, NomAgence
+ORDER BY
+NomAgence;
+
+
+#24
+
+
+SELECT produit.Design AS DesignationProduit,
+SUM(contient.Qte) AS QuantiteTotale
+FROM produit
+JOIN contient  ON produit.produitID = contient.produitID
+JOIN commande  ON commande.CommandeId = contient.CommandeId
+WHERE YEAR(DateCom) = 2017
+AND produit.Design LIKE 'p%'
+GROUP BY produit.Design
+ORDER BY QuantiteTotale DESC
+LIMIT 1;
+
+#25
+
+SELECT
+NomClient
+FROM
+client
+WHERE
+LEFT(NomClient, 4) = LEFT(
+(SELECT NomClient FROM client ORDER BY LENGTH(NomClient) ASC LIMIT 1), 4
+);
+
+#26
+
+SELECT
+commande.CommandeId,
+commande.DateCom
+FROM
+commande
+LEFT JOIN
+facture ON commande.CommandeId = facture.CommandeId
+WHERE
+facture.FactureId IS NULL;
+```
+
+#27
+
+```sql
+#28
+
+SELECT
+client.NomClient,
+COUNT(commande.CommandeId) AS NombreDeCommandes
+FROM
+client
+LEFT JOIN
+commande ON client.ClientID = commande.ClientID AND YEAR(commande.DateCom) = 2017
+GROUP BY
+client.ClientID, client.NomClient
+ORDER BY
+client.NomClient;
+
+
+#29
+SELECT NOMAGENCE
+FROM AGENCE, COMMANDE, CONTIENT
+WHERE AGENCE.AGENCEID = COMMANDE.AGENCEID
+AND COMMANDE.COMMANDEID = CONTIENT.COMMANDEID
+AND Year(DATECOM) = 2017 GROUP BY NOMAGENCE
+HAVING COUNT(DISTINCT PRODUITID) = (SELECT COUNT(PRODUITID) FROM PRODUIT);
+
+#31
+
+SELECT client.NomClient,
+(SUM(contient.Qte * coute.prixHT) * 0.03) AS TauxRemise
+FROM client
+JOIN commande ON client.ClientID = commande.ClientID
+JOIN contient ON commande.CommandeId = contient.CommandeId
+JOIN coute ON contient.produitID = coute.produitID
+JOIN catalogue ON coute.CatalogueId = catalogue.CatalogueId
+WHERE YEAR(commande.DateCom) = 2017
+GROUP BY client.NomClient
+HAVING SUM(contient.Qte * coute.prixHT) BETWEEN 80000 AND 100000;
+
+
+
+#32
+
+SELECT
+commande.CommandeId
+FROM
+commande
+LEFT JOIN
+facture  ON commande.CommandeId = facture.CommandeId
+WHERE
+YEAR(commande.DateCom) = 2017
+AND facture.CommandeId IS NULL;
+
+
+
+SELECT COMMANDID
+
+FROM COMMANDE
+
+WHERE YEAR(DATECOM) = 2017
+
+AND COMMANDID NOT IN (SELECT COMMANDEID FROM FACTURE);
+
+
+
+#33
+SELECT
+commande.CommandeId
+FROM
+commande
+JOIN
+contient ON commande.CommandeId = contient.CommandeId
+WHERE
+contient.produitID IN (1, 5)
+GROUP BY
+commande.CommandeId
+HAVING
+COUNT(DISTINCT contient.produitID) = 2;
