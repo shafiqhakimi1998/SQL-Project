@@ -1,0 +1,13 @@
+
+This guide covers the usage of intermediate SQL queries, including functions such as HAVING, ORDER BY, and JOINS.
+
+Step 1: Uploading CSV Files to MySQL
+
+Import the CSV  data into your MySQL database using the appropriate method (e.g., LOAD DATA INFILE or a MySQL import tool).
+OR 
+Convert the CSV file to JSON format for compatibility.
+
+Step 2: Running SQL Queries
+Execute SQL queries one by one to analyze and manipulate the data.
+Utilize HAVING, ORDER BY, and JOINS to filter, sort, and combine datasets as needed.
+Adjust queries based on your requirements for better insights
